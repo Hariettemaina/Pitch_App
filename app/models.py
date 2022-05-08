@@ -28,9 +28,9 @@ class User(UserMixin, db.Model):
     
     
 class Comments(db.Model):
-    __table__ = 'comments'
+    __tablename__='comments'
     id = db.Column(db.Integer, primary_key=True)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
     comment = db.Column(db.String(), nullable=False)
-    user_id = db.Column(db.Integer), db.ForeignKey('user.id')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
