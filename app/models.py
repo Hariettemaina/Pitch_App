@@ -20,11 +20,25 @@ class User(UserMixin, db.Model):
     pitches = db.relationship('Pitches', backref='user', lazy='dynamic')
     likes = db.relationship('UpVote', backref='user', lazy='dynamic')
     comments = db.relationship('Comments', backref='comments', lazy='dynamic')
+    
+    
+    @property   #write-only
+    def password(self):
+        raise AttributeError('You can only read this attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_encrypt = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_encrypt, password)
+
+    def __repr__(self):
+        return f'User{self.username}'
 
     
     
-    def __repr__(self): 
-        return f'User {self.username}'
+    
     
     
 class Comments(db.Model):
@@ -34,3 +48,5 @@ class Comments(db.Model):
     comment = db.Column(db.String(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
+    def __repr__(self):
+        return f'Comments:{self.comment}'
