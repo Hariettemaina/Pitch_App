@@ -12,6 +12,7 @@ flask-wtf = "*"
 werkzeug = "*"
 flask-migrate = "*"
 flask-login = "*"
+markupsafe = "*"
 
 [dev-packages]
 
