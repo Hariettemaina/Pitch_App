@@ -1,9 +1,9 @@
-from json.tool import main
+from . import main_blueprint
 from flask import render_template
-from app import app
+#from app import app
 
 # Views
-@main.route('/')
+@main_blueprint.route('/')
 def index():
 
     '''
