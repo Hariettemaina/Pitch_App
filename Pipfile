@@ -9,6 +9,9 @@ flask-bootstrap = "*"
 flask-sqlalchemy = "*"
 psycopg2-binary = "*"
 flask-wtf = "*"
+werkzeug = "*"
+flask-migrate = "*"
+flask-login = "*"
 
 [dev-packages]
 
