@@ -1,9 +1,8 @@
 from app import create_app,db
 from flask_script import Manager,Server
-import app
 from app.models import User
 
-app = create_app('prod')
+app = create_app('dev')
 
 manager = Manager(app)
 manager.add_command('server',Server)

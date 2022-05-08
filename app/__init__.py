@@ -17,3 +17,6 @@ def create_app(config_name):
     #init
     bootstrap.init_app(app)
     db.init_app(app)
+
+    
+    return app
