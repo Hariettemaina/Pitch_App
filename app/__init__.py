@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 migrate = Migrate()
-from .models import User
+
 
 
 
