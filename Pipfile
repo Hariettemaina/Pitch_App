@@ -10,10 +10,12 @@ flask-sqlalchemy = "*"
 psycopg2-binary = "*"
 flask-wtf = "*"
 werkzeug = "*"
-flask-migrate = "*"
+flask-migrate = "==2.7.0"
 flask-login = "*"
 markupsafe = "*"
 psycopg2 = "*"
+flask-script = "==2.0.5"
+python-dotenv = "*"
 
 [dev-packages]
 

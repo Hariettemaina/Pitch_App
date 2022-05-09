@@ -1,10 +1,16 @@
 import os
 
+from dotenv import load_dotenv, find_dotenv
+
+
+load_dotenv(find_dotenv())
+
 class Config:
     '''
     General configuration parent class
     '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wagithi:12345j@localhost/pitch'
+  
+    
 
     
 class ProductionConfig(Config):
@@ -14,6 +20,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     '''
     '''
+    SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')
     DEBUG=True
     
     

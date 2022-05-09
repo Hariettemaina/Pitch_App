@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+from .models import User
 migrate = Migrate()
 
 
@@ -14,16 +15,19 @@ migrate = Migrate()
 def create_app(config_name):
     app = Flask(__name__)
     
+    #init
+    db.init_app(app)
     
-    db = SQLAlchemy(app)
+    
     migrate.init_app = Migrate(app,db)
     
     #set up
     app.config.from_object(config_options[config_name])
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     #init
     bootstrap.init_app(app)
-    db.init_app(app)
+    
     
     #regi blueprints
     from .main import main_blueprint
