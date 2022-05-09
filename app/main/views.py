@@ -2,7 +2,7 @@
 from . import main_blueprint
 from flask import render_template
 from ..models import User, Pitches,Comments,UpVote
-#from app import app
+from flask_login import login_required
 
 # Views
 @main_blueprint.route('/')
