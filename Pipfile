@@ -19,6 +19,7 @@ python-dotenv = "*"
 flask-mail = "*"
 flask-uploads = "*"
 wtforms = {extras = ["email"], version = "*"}
+gunicorn = "*"
 
 [dev-packages]
 
