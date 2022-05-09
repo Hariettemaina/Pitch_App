@@ -1,35 +1,26 @@
 import os
-
-from dotenv import load_dotenv, find_dotenv
-
-
-load_dotenv(find_dotenv())
+from dotenv import load_dotenv
+load_dotenv()
 
 class Config:
-    '''
-    General configuration parent class
-    '''
-   
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS=True
+    SECRET_KEY=os.environ.get('SECRET_KEY')
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
-    
-    UPLOADED_PHOTOS_DEST ='app/static/photos'
-    
-class ProductionConfig(Config):
-    
-    pass
-    
-class DevelopmentConfig(Config):
-    '''
-    '''
-    SQLALCHEMY_DATABASE_URI=os.getenv('SQLALCHEMY_DATABASE_URI')
-    DEBUG=True
-    
-    
-config_options={
-    'dev': DevelopmentConfig,
-    'prod': ProductionConfig
+
+class ProdConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
+class DevConfig(Config):
+    DEBUG = True
+
+config_options = {
+'development':DevConfig,
+'production':ProdConfig
 }

@@ -1,5 +1,5 @@
 ## PROJECT  NAME 
- -PITCH-APP 
+ - PITCH-APP 
 
 ## AUTHOR 
  - Hariette Maina
@@ -24,8 +24,8 @@ The users will submit their one minute pitches and other users will vote on them
 | Inputs |  Description |
 | :---         |          ---: |
 | Username  | Account username, ``eg lauradoe``|
-| Email  | User email, ``eg morty@testmail.com``|
-| Password  | Account password, ``eg laura23``|
+| Email  | User email, ``eg jjune@testmail.com``|
+| Password  | Account password, ``eg 12345``|
 | Confirm Password  | Account password, ``eg laura23``|
 
 > Pitches inputs
@@ -59,7 +59,7 @@ The users will submit their one minute pitches and other users will vote on them
 * Flask
 * Html5
 * Css3
-* Bootstrap4
+* Bootstrap5
 
 
 # Prerequisites
@@ -72,8 +72,6 @@ To work with ONE MINUTE PITCH App you need to have some few prerequisites.
 
 - Flask 
 
-
-
 - Code/text editor
 
 - Terminal
@@ -84,30 +82,42 @@ The following command installs all the application requirements
 >``pip freeze -r requirements.txt``
 
 ## Setup
-Run "https://github.com/Hariettemaina/Pitch_App.git"
+ Run "https://github.com/Hariettemaina/Pitch_App.git"
 ````
 
-or download the zip file from github.
+ or download the zip file from github.
 
-After extracting the files, 
+ After extracting the files, 
 
-1. Navigate to the project folder
->`` cd gitSearch.`` 
+ 1. Navigate to the project folder
+ >`` cd gitSearch.`` 
 
-2. Creating a virtual environment
->``virtualenv virtual.``
+ 2. Creating a virtual environment
+ >``install pipenv.``
 
-3. Activating the virtual environment
->``source virtual/bin/activate.``
+ 3. Activating the virtual environment
+ >``pipenv shell``
 
 4. Running the application
->``python3 manage.py server``
+>``python3 manage.py runserver``
 
 5. Running tests
 
  > ``python3 manage.py test.``
 
 
+##  Development
+
+### Want to contribute? Great!
+To fix a bug or enhance an existing module, follow these steps:
+* Fork the repo
+* Create a new branch ('git checkout -b improve-feature')
+* Make the appropriate changes in the files
+* Add changes to reflect the changes made
+* Commit your changes ('git commit -am 'Improve feature')
+* Push to the branch ('git push origin improve-feature')
+* Create a Pull Request
+
 
 ## Contacts 
-**hariettemaina@gmail.com**
+ **hariettemaina@gmail.com**
