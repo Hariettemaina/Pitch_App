@@ -4,7 +4,7 @@ from flask import render_template
 
 # Views
 @main_blueprint.route('/')
-def index():
+def home():
 
     '''
     View root page function that returns the index page and its data

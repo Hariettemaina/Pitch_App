@@ -13,6 +13,7 @@ werkzeug = "*"
 flask-migrate = "*"
 flask-login = "*"
 markupsafe = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
