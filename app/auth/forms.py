@@ -1,28 +1,41 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField ,ValidationError
 from wtforms.validators import InputRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, ValidationError, BooleanField
+from flask_wtf import FlaskForm
 from ..models import User
 
 
+class RegistrationForm(FlaskForm):
+    """
+    RegstrationForm class that passes in the required details for validation
+    """
+
+    email = StringField('your email address', validators=[InputRequired(), Email()])
+    username = StringField('your username', validators=[InputRequired()])
+    password = PasswordField('password', validators=[InputRequired(), EqualTo('password',message='passwords must match')])
+    password_confirm = PasswordField('confirm password', validators=[InputRequired()])
+    submit = SubmitField('sign Up')
 
 
-class SignupForm(FlaskForm):
-    username = StringField('Enter your name', validators=[InputRequired()])
-    email = StringField('Enter your email address', validators=[InputRequired(),Email()])
-    password = PasswordField('Password',validators = [InputRequired(), EqualTo('password_confirm',message = 'Passwords must match')])
-    password_confirm = PasswordField('Confirm Passwords',validators = [InputRequired()])
-    submit = SubmitField('Sign Up')
-
+    #custom validators
     def validate_email(self, data_field):
-        if User.query.filter_by(email=data_field.data).first():
-            raise ValidationError('A user with that email address exists')
-    
-    def validate_username(self,data_field):
-        if User.query.filter_by(username = data_field.data).first():
-            raise ValidationError('THis username is already taken')
+        """
+        Functions takes in the data field and checks our database to confirm user Validation
+        """
+        if User.query.filter_by(email = data_field.data).first():
+            raise ValidationError('There is an account with that email')
 
+
+    def validate_username(self, data_field):
+        """
+        Function checks if the username is unique and raises ValidationError
+        """
+        if User.query.filter_by(username = data_field.data).first():
+            raise ValidationError('That user name is already taken. Try another one')
+
+
+#login class  takes three inputs from the user
 class LoginForm(FlaskForm):
-    email = StringField('Your Email Address',validators=[InputRequired(),Email()])
-    password = PasswordField('Password',validators =[InputRequired()])
+    email = StringField('Your email address', validators=[InputRequired(),Email()])
+    password = PasswordField('Password', validators=[InputRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Sign In')

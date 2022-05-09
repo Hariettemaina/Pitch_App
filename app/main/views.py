@@ -1,97 +1,180 @@
 
-from . import main_blueprint
-from flask import render_template, request, redirect, url_for, abort
-from ..models import User, Pitches,Comments,UpVote
-from .forms import EditProfile, PitchForm, CommentForm
-from flask_login import login_required,current_user
-from ..import db
+from flask import render_template, redirect, url_for, abort
+from flask_login import login_required, current_user
+from . forms import PitchForm, CommentForm, CategoryForm
+from .import main
+from .. import db
+from ..models import User, Pitch, Comments, PitchCategory, Votes
 
-# Views
-@main_blueprint.route('/')
-def home():
+#display categories on the landing page
+@main.route('/')
+def index():
+    """
+    View root page function that returns index page
+    """
 
-    '''
-    View root page function that returns the index page and its data
-    '''
-    pitches=Pitches.query.all()
-    identification = Pitches.user_id
-    posted_by = User.query.filter_by(id=identification).first()
-    user = User.query.filter_by(id=current_user.get_id()).first()
+    # all_category = PitchCategory.get_categories()
+    # #all_pitches = Pitch.query.order_by(id).all()
+    # print(all_pitches)
 
-    return render_template('pitches.html', pitches=pitches, posted_by=posted_by, user=User)
+    # title = 'Home- Welcome'
+    # return render_template('index.html', title = title, categories=all_category, all_pitches=all_pitches)
 
 
-
-@main_blueprint.route('/new_pitch', methods=['GET','POST'])
+#Route for adding a new pitch
+@main.route('/category/new-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
-def pitch_form():
-    pitch_form = PitchForm()
-    if pitch_form.validate_on_submit():
-        category=pitch_form.pitch_category.data
-        text = pitch_form.pitch_text.data
-        new_pitch = Pitches(category=category, text=text, user=current_user)
-        new_pitch.save_pitch()
-        return redirect(url_for('main.home'))
-    return render_template('new_pitch.html', pitch_form=pitch_form, )
+def new_pitch(id):
+    """
+    Function to check Pitches form and fetch data from the fields 
+    """
+    
+    form = PitchForm()
+    category = PitchCategory.query.filter_by(id=id).first()
 
-
-
-@main_blueprint.route('/categories/<pitch_category>')
-def categories(pitch_category):
-    pitch = Pitches.get_category(pitch_category)
-
-    identification = Pitches.user_id
-    posted_by = User.query.filter_by(id=identification).first()
-    return render_template('categories.html', pitch=pitch, posted_by=posted_by)
-
-
-
-
-
-@main_blueprint.route('/comments/<int:pitch_id>', methods=['GET','POST'])
-@login_required
-def pitch_comments(pitch_id):
-    comments = Comments.get_comments(pitch_id)
-
-    pitch = Pitches.query.get(pitch_id)
-    pitch_posted_by = pitch.user_id
-    user = User.query.filter_by(id=pitch_posted_by).first()
-
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = form.pitch_comment.data      
-        new_comment = Comments(comment=comment, pitch_id=pitch_id, user_id=current_user.get_id())
-        new_comment.save_comment()
-        return redirect(url_for('main.pitch_comments',pitch_id = pitch_id))
-
-    return render_template('comments.html', comment_form=form, comments=comments, pitch = pitch, user=user)
-
-
-
-
-@main_blueprint.route('/user/<name>', methods=['GET','POST'])
-@login_required
-def profile(name):
-    user = User.query.filter_by(username=name).first()
-    if user is None:
+    if category is None:
         abort(404)
 
-    form=EditProfile()
     if form.validate_on_submit():
-        user.about=form.about.data
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('.profile', name=user.username))
-    return render_template('profile/profile.html', user=user, form=form)
+        content = form.content.data
+        new_pitch= Pitch(content=content, category_id = category.id, user_id = current_user.id)
+        new_pitch.save_pitch()
+        return redirect(url_for('.category', id=category.id))
+
+    return render_template('new_pitch.html', pitch_form=form, category=category)
 
 
-# @main_blueprint.route('/user/<name>/edit/pic', methods=['POST'])
+@main.route('/categories/<int:id>')
+def category(id):
+    category = PitchCategory.query.get(id)
+    if category is None:
+        abort(404)
+
+    pitches=Pitch.get_pitches(id)
+    return render_template('category.html', pitches=pitches, category=category)
+
+
+@main.route('/add/category', methods=['GET','POST'])
+@login_required
+def new_category():
+    """
+    View new group route function that returns a page with a form to create a category
+    """
+    
+    form = CategoryForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        new_category = PitchCategory(name = name)
+        new_category.save_category()
+
+        return redirect(url_for('.index'))
+
+    title = 'New category'
+    return render_template('new_category.html', category_form = form, title = title)
+
+
+#view single pitch alongside its comments
+@main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view_pitch(id):
+    """
+    Function the returns a single pitch for a comment to be added
+    """
+    all_category = PitchCategory.get_categories()
+    pitches = Pitch.query.get(id)
+    # pitches = Pitch.query.filter_by(id=id).all()
+
+    if pitches is None:
+        abort(404)
+    #
+    comment = Comments.get_comments(id)
+    count_likes = Votes.query.filter_by(pitches_id=id, vote=1).all()
+    count_dislikes = Votes.query.filter_by(pitches_id=id, vote=2).all()
+    return render_template('view-pitch.html', pitches = pitches, comment = comment, count_likes=len(count_likes), count_dislikes=len(count_dislikes), category_id = id, categories=all_category)
+
+#adding a comment
+@main.route('/write_comment/<int:id>', methods=['GET', 'POST'])
+@login_required
+def post_comment(id):
+    """ 
+    Function to post comments 
+    """
+    
+    form = CommentForm()
+    title = 'post comment'
+    pitches = Pitch.query.filter_by(id=id).first()
+
+    if pitches is None:
+         abort(404)
+
+    if form.validate_on_submit():
+        opinion = form.opinion.data
+        new_comment = Comments(opinion = opinion, user_id = current_user.id, pitches_id = pitches.id)
+        new_comment.save_comment()
+        return redirect(url_for('.view_pitch', id = pitches.id))
+
+    return render_template('post_comment.html', comment_form = form, title = title)
+
+
+#Routes upvoting/downvoting pitches
+@main.route('/pitch/upvote/<int:id>&<int:vote_type>')
+@login_required
+def upvote(id,vote_type):
+    """
+    View function that adds one to the vote_number column in the votes table
+    """
+    # Query for user
+    votes = Votes.query.filter_by(user_id=current_user.id).all()
+    print(f'The new vote is {votes}')
+    to_str=f'{vote_type}:{current_user.id}:{id}'
+    print(f'The current vote is {to_str}')
+
+    if not votes:
+        new_vote = Votes(vote=vote_type, user_id=current_user.id, pitches_id=id)
+        new_vote.save_vote()
+        # print(len(count_likes))
+        print('YOU HAVE new VOTED')
+
+    for vote in votes:
+        if f'{vote}' == to_str:
+            print('YOU CANNOT VOTE MORE THAN ONCE')
+            break
+        else:   
+            new_vote = Votes(vote=vote_type, user_id=current_user.id, pitches_id=id)
+            new_vote.save_vote()
+            print('YOU HAVE VOTED')
+            break
+    # count_likes = Votes.query.filter_by(pitches_id=id, vote=1).all()
+    # upvotes=len(count_likes)
+    # count_dislikes = Votes.query.filter_by(pitches_id=id, vote=2).all()
+
+    return redirect(url_for('.view_pitch', id=id))
+
+# @main.route('/pitch/downvote/<int:id>')
 # @login_required
-# def update_pic(name):
-#     user=User.query.filter_by(username=name).first()
-#     if 'photo' in request.files:
-#         filename=photos.save(request.files['photo'])
-#         path=f'photos/{filename}'
-#         user.avatar=path
-#         db.session.commit()
-#     return redirect(url_for('main.profile', name=name))
+# def downvote(id):
+#     """
+#     View function that add one to the vote_number column in the votes table
+#     """
+    
+#     pitch_id = Pitch.query.filter_by(id=id).first()
+
+#     if pitch_id is None:
+#          abort(404)
+
+#     # new_vote = Votes(vote+=int(2), user_id=current_user.id, pitches_id=pitch_id.id)
+#     new_vote.save_vote()
+#     return redirect(url_for('.view_pitch', id=id))
+
+# @main.route('/pitch/downvote/<int:id>')
+# def vote_count(id):
+#     """
+#     View function to return the total vote count per pitch
+#     """
+    
+#     votes = Votes.query.filter_by(user_id=user_id, line_id=line_id).all()
+
+#     total_votes = votes.count()
+
+#     return total_votes

@@ -1,21 +1,24 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField ,SubmitField
 from wtforms.validators import InputRequired
-
-
-CATEGORY_CHOICES=[('Elevator Pitch','Elevator Pitch'), ('Pickup lines','Pickup lines'), ('Puns','Puns')]
-
-class EditProfile(FlaskForm):
-    about = TextAreaField('Tell us about yourself.',validators = [InputRequired()])
-    submit = SubmitField('Update')
-
+from wtforms import StringField, TextAreaField, SubmitField, SelectField
+from flask_wtf import FlaskForm
 
 class PitchForm(FlaskForm):
-    pitch_category = SelectField('Choose a category', choices=CATEGORY_CHOICES, validators=[InputRequired()])
-    pitch_text = TextAreaField('Your pitch here', validators=[InputRequired()]) 
-    submit = SubmitField('Post')
-
+    """
+    Class to create a wtf form for creating a pitch
+    """
+    content = TextAreaField('INPUT YOUR PITCH')
+    submit = SubmitField('SUBMIT')
 
 class CommentForm(FlaskForm):
-    pitch_comment = TextAreaField('Make a comment', validators=[InputRequired()])
-    submit = SubmitField('Comment')
+    """
+    Class to create a wtf form for creating a pitch
+    """
+    opinion = TextAreaField('WRITE A COMMENT')
+    submit = SubmitField('SUBMIT')
+
+class CategoryForm(FlaskForm):
+    """
+    Class to create a wtf form for creating a pitch
+    """
+    name =  StringField('Category Name', validators=[InputRequired()])
+    submit = SubmitField('Create')

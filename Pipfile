@@ -9,14 +9,16 @@ flask-bootstrap = "*"
 flask-sqlalchemy = "*"
 psycopg2-binary = "*"
 flask-wtf = "*"
-werkzeug = "*"
+werkzeug = "==0.16.0"
 flask-migrate = "==2.7.0"
 flask-login = "*"
-markupsafe = "*"
+markupsafe = "==2.0.1"
 psycopg2 = "*"
 flask-script = "==2.0.5"
 python-dotenv = "*"
 flask-mail = "*"
+flask-uploads = "*"
+wtforms = {extras = ["email"], version = "*"}
 
 [dev-packages]
 
