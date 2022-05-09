@@ -9,10 +9,8 @@ from flask_login import LoginManager
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-from .models import User
+# from .models import User
 migrate = Migrate()
-
-
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
@@ -22,8 +20,7 @@ login_manager.login_view = 'auth.login'
 def create_app(config_name):
     app = Flask(__name__)
     
-    #init
-    db.init_app(app)
+    
     
     
     migrate.init_app = Migrate(app,db)
@@ -35,6 +32,7 @@ def create_app(config_name):
     #init
     bootstrap.init_app(app)
     login_manager.init_app(app)
+    db.init_app(app)
     
     
     #regi blueprints
