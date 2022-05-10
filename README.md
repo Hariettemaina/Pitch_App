@@ -79,7 +79,7 @@ To work with ONE MINUTE PITCH App you need to have some few prerequisites.
 ## Installations
 
 The following command installs all the application requirements
->``pip freeze -r requirements.txt``
+>``pipenv freeze -r requirements.txt``
 
 ## Setup
  - Run "https://github.com/Hariettemaina/Pitch_App.git"
