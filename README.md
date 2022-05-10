@@ -6,20 +6,20 @@
 
  ## DESCRIPTION 
  - This is a Python-Flask Application that allows users to create one minute pitch. You only have 60 seconds to impress someone. 1 minute can make or break you.
-The users will submit their one minute pitches and other users will vote on them and leave comments to give their feedback on them.
+- The users will submit their one minute pitches and other users will vote on them and leave comments to give their feedback on them.
 
  ## BDD(Behaviour Driven Development)
 
   
 
->Login Inputs
+ # Login Inputs
 
 | Inputs |  Description |
 | :---         |          ---: |
 | Username  | Account username, ``eg lauradoe``|
 | Password  | Account password, ``eg laura23``|
 
->Signup inputs
+# Signup inputs
 
 | Inputs |  Description |
 | :---         |          ---: |
@@ -28,7 +28,7 @@ The users will submit their one minute pitches and other users will vote on them
 | Password  | Account password, ``eg 12345``|
 | Confirm Password  | Account password, ``eg laura23``|
 
-> Pitches inputs
+# Pitches inputs
 
 | Inputs | Description  |
 |---|---|
@@ -82,12 +82,12 @@ The following command installs all the application requirements
 >``pip freeze -r requirements.txt``
 
 ## Setup
- Run "https://github.com/Hariettemaina/Pitch_App.git"
-````
+ - Run "https://github.com/Hariettemaina/Pitch_App.git"
+ 
 
- or download the zip file from github.
+ - or download the zip file from github.
 
- After extracting the files, 
+- After extracting the files, 
 
  1. Navigate to the project folder
  >`` cd gitSearch.`` 
@@ -118,7 +118,7 @@ To fix a bug or enhance an existing module, follow these steps:
 * Push to the branch ('git push origin improve-feature')
 * Create a Pull Request
 
-
+- https://pitchmaneno.herokuapp.com/
 
 
 ## Contacts 
