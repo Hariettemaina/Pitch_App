@@ -90,7 +90,7 @@ The following command installs all the application requirements
 - After extracting the files, 
 
  1. Navigate to the project folder
- >`` cd gitSearch.`` 
+ >`` cd Pitch-App.`` 
 
  2. Creating a virtual environment
  >``install pipenv.``
