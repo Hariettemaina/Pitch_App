@@ -1,10 +1,10 @@
-{% import 'macros.html' as macro  %}
+{%import 'macros.html' as macro%}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">One Minute Pitch</a>
+    <a class="navbar-brand" href="/">PITCH YOU</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
         aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span> -->
-     </button>
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -12,7 +12,12 @@
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
-            
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+            </li> -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     categories
@@ -27,7 +32,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">{{current_user.username.capitalize()}}</a>
             </li>
-            <li class="nav-item" p-5>
+            <li class="nav-item">
                 <a class="nav-link" href="{{url_for('auth.logout')}}">Sign Out</a>
             </li>
             {%else%}

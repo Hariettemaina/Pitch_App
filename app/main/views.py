@@ -1,6 +1,3 @@
-
-
-  
 from flask import render_template, redirect, url_for, abort
 from flask_login import login_required, current_user
 from . forms import PitchForm, CommentForm, CategoryForm
@@ -147,8 +144,8 @@ def upvote(id,vote_type):
             new_vote.save_vote()
             print('YOU HAVE VOTED')
             break
-    # count_likes = Votes.query.filter_by(pitches_id=id, vote=1).all()
+    # count_likes = Votes.query.filteby(pitches_id=id, vote=1).all()
     # upvotes=len(count_likes)
     # count_dislikes = Votes.query.filter_by(pitches_id=id, vote=2).all()
 
-    return redirect(url_for('.view_pitch', id=id))
+    return redirect(url_for('.view-pitch.html', id=id))
