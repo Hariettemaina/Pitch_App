@@ -202,3 +202,7 @@ The following command installs all the application requirements
 
 ## Contacts 
  **hariettemaina@gmail.com**
+
+
+## License
+- MIT License Copyright (c) 2022 Faith Mwangi
